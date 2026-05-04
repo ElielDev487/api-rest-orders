@@ -106,15 +106,36 @@ class OrderController{
 		}
 	}
 
-	public function changeOrderStatus($status, $id){
+	public function changeOrderStatus($id){
+		$data = json_decode(file_get_contents('php://input'), true);
+		
+		if(empty($data['statut'])){
+			http_response_code(400);
+			echo json_encode([
+				'status' => 'error',
+				'message' => 'Le statut est obligatoire'
+			]);
+			return;
+		}
+
+		$allowed = ['pending', 'confirmed', 'cancelled'];
+		if(!in_array($data['statut'], $allowed)){
+			http_response_code(400);
+			echo json_encode([
+				'status' => 'error',
+				'message' => 'Statut invalide'
+			]);
+			return;
+		}
+
 		$this->orderObj->id = $id;
-		$this->orderObj->statut = $status;
+		$this->orderObj->statut = $data['statut'];
 
 		if($this->orderObj->changeOrderStatus()){
 			http_response_code(200);
 			echo json_encode([
 				'status' => 'success',
-				'message' => 'Status modifié avec succcès'
+				'message' => 'Statut modifié avec succès'
 			]);
 		}
 	}
