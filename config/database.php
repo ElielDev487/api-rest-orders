@@ -37,7 +37,7 @@ class Database{
         throw new \Exception('Not implemented');
     }
 
-    private function __wakeup(){
+    public function __wakeup(){
         throw new \Exception('Not implemented');
     }
 }

@@ -34,7 +34,7 @@ class OrderController{
 			http_response_code(404);
 			echo json_encode([
 				'status' => 'error',
-				'message' => 'Commande non trouvée'
+				'message' => 'Commande non trouvee'
 			]);
 		}
 	}
@@ -53,17 +53,20 @@ class OrderController{
 				$this->orderObj->id = $this->db->lastInsertId();
 				$this->orderObj->num_cmd = $this->generateNumCmd($this->orderObj->id);
 
-				if($this->orderObj->update()){
+				if($this->orderObj->updateNumCmd()){
 					http_response_code(201);
-					echo json_encode([
-						'status' => 'success',
-						'message' => 'Commande enregistrée avec succès'
-					]);
+					echo json_encode(
+						[
+							'status' => 'success',
+							'message' => 'Commande enregistrée avec succès'
+						],
+						JSON_UNESCAPED_UNICODE
+					);
 				}else{
 					http_response_code(400);
 					echo json_encode([
 						'status' => 'error',
-						'message' => 'Erreur numéro de commande'
+						'message' => 'Erreur numero de commande'
 					]);
 				}
 			}
@@ -89,10 +92,13 @@ class OrderController{
 
 			if($this->orderObj->update()){
 				http_response_code(200);
-				echo json_encode([
-					'status' => 'success',
-					'message' => 'Categorie modifiée avec succès'
-				]);
+				echo json_encode(
+					[
+						'status' => 'success',
+						'message' => 'Categorie modifiée avec succès'
+					],
+					JSON_UNESCAPED_UNICODE
+				);
 			}
 		}else{
 			foreach($errors as $error){
@@ -133,10 +139,13 @@ class OrderController{
 
 		if($this->orderObj->changeOrderStatus()){
 			http_response_code(200);
-			echo json_encode([
-				'status' => 'success',
-				'message' => 'Statut modifié avec succès'
-			]);
+			echo json_encode(
+				[
+					'status' => 'success',
+					'message' => 'Statut modifié avec succès'
+				],
+				JSON_UNESCAPED_UNICODE
+			);
 		}
 	}
 
@@ -147,7 +156,7 @@ class OrderController{
 			http_response_code(200);
 			echo json_encode([
 				'status' => 'success',
-				'message' => 'Commande supprimée avec succès'
+				'message' => 'Commande supprimee avec succès'
 			]);
 		}
 	}
@@ -158,7 +167,7 @@ class OrderController{
 			$errors[] = 'Erreur : Le nom est obligatoire';
 		}
 		if(empty($data['phone'])){
-			$errors[] = 'Erreur : Le numéro de téléphone est obligatoire';
+			$errors[] = 'Erreur : Le numéro de telephone est obligatoire';
 		}
 		if(empty($data['montant']) || !is_numeric($data['montant'])){
 			$errors[] = 'Erreur : Le montant de la commande est incorrecte';

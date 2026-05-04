@@ -11,7 +11,7 @@ class Order{
     public $phone;
     public $delivery;
     public $montant;
-    public $statut;
+    public $statut = 'pending';
 
     public function __construct($db){
         $this->db = $db;
@@ -45,16 +45,24 @@ class Order{
     }
 
     public function update(){
-        $query = 'UPDATE ' . $this->table . ' SET num_cmd = ?, nom_client = ?, phone = ?, delivery = ?, montant = ?, statut = ? WHERE id = ?';
+        $query = 'UPDATE ' . $this->table . ' SET nom_client = ?, phone = ?, delivery = ?, montant = ?, statut = ? WHERE id = ?';
         $stmt = $this->db->prepare($query);
         return $stmt->execute([
-            $this->num_cmd,
             $this->nom_client,
             $this->phone,
             $this->delivery,
             $this->montant,
             $this->statut,
             $this->id
+        ]);
+    }
+
+    public function updateNumCmd(){
+		$query = 'UPDATE ' . $this->table . ' SET num_cmd = ? WHERE id = ?';
+		$stmt = $this->db->prepare($query);
+        return $stmt->execute([
+            $this->num_cmd,
+			$this->id
         ]);
     }
 
